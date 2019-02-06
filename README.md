@@ -1,3 +1,7 @@
+I made this to allow anyone to quickly and easily set up a Three.js sandbox. Enjoy!
+
+-Josh
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
