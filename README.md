@@ -1,7 +1,10 @@
 ## Welcome to my Three.js-Sandbox Repo
 
 I made this to allow anyone to quickly and easily set up a Three.js sandbox. 
-Simply clone this repo and enter 'npm start' on the command line. 
+
+1) Fork and clone this repo
+2) Run 'npm install' to install the required node-modules
+3) Run 'npm start'
 
 Enjoy!
 
