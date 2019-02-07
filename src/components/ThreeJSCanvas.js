@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import OrbitControls from 'three-orbitcontrols';
 import skybox from './Skyboxes/Skybox';
 import gridCubeLines from './3DModels/GridCubeLines';
-
 class ThreeJSCanvas extends Component {
   constructor(props) {
     super(props);
@@ -44,6 +43,7 @@ class ThreeJSCanvas extends Component {
 
     // GRID CUBE LINES
     this.scene.add(gridCubeLines);
+
   }
 
   componentDidMount() {

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import ThreeJSCanvas from '../components/ThreeJSCanvas';
 
 class Main extends Component {
-  constructor() {
-    super();
-  }
+  // constructor() {
+  //   super();
+  // }
 
   render() {
     return (
