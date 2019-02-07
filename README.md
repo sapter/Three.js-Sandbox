@@ -1,10 +1,15 @@
-I made this to allow anyone to quickly and easily set up a Three.js sandbox. Enjoy!
+## Welcome to my Three.js-Sandbox Repo
+
+I made this to allow anyone to quickly and easily set up a Three.js sandbox. 
+Simply clone this repo and enter 'npm start' on the command line. 
+
+Enjoy!
 
 -Josh
 
 *Skybox images are from http://www.custommapmakers.org/skyboxes.php
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
