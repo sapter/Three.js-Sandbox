@@ -1,9 +1,12 @@
-import React, { Component } from 'react';
-import * as THREE from 'three';
-import { connect } from 'react-redux';
-import OrbitControls from 'three-orbitcontrols';
-import skybox from './Skyboxes/Skybox';
-import gridCubeLines from './3DModels/GridCubeLines';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import * as THREE from "three";
+import { Interaction } from "three.interaction";
+import OrbitControls from "three-orbitcontrols";
+// import gridCubeLines from './3DModels/GridCubeLines';
+import cubeCreator from "./3DModels/cube";
+import group from "./3DModels/group";
+
 class ThreeJSCanvas extends Component {
   constructor(props) {
     super(props);
@@ -21,10 +24,11 @@ class ThreeJSCanvas extends Component {
       60,
       window.innerWidth / window.innerHeight,
       1,
-      1000
+      1000,
     );
-    this.camera.position.set(0, 10, -30);
-
+    this.camera.position.set(0, 10, -15);
+    // INTERACTION
+    this.interaction = new Interaction(this.renderer, this.scene, this.camera);
     //AMBIENT LIGHT
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
     this.scene.add(ambientLight);
@@ -38,25 +42,52 @@ class ThreeJSCanvas extends Component {
     this.controls.maxDistance = 50;
     // this.controls.maxPolarAngle = Math.PI / 2;
 
-    // //SKYBOX (uncomment to turn on the default skybox)
-    // this.scene.add(skybox);
-
     // GRID CUBE LINES
-    this.scene.add(gridCubeLines);
-
+    // this.scene.add(gridCubeLines);
+    this.scene.add(group);
   }
 
   componentDidMount() {
-    document.getElementById('canvas').appendChild(this.renderer.domElement);
+    document.getElementById("canvas").appendChild(this.renderer.domElement);
+    this.boardCreate(4);
     this.animate();
   }
+  // CREATE CUBE BOARD
+  boardCreate = size => {
+    for (let x = 0; x < size; x++) {
+      for (let y = 0; y < size; y++) {
+        for (let z = 0; z < size; z++) {
+          const cube = cubeCreator(0.98, x, y, z, true);
+          const cubeChild = cubeCreator(0.94 / 2, 0, 0, 0, false);
+          group.add(cube);
+          cube.add(cubeChild);
+          this.meshOnClick(cube);
+          this.meshOnClick(cubeChild);
+        }
+      }
+    }
+  };
+  meshOnClick = mesh => {
+    mesh.cursor = "pointer";
+    mesh.on("click", function(ev) {
+      const pos0 = ev.data.target.position;
+      const pos1 = ev.data.target.children[0]
+        ? ev.data.target.children[0].position
+        : null;
+      const pos2 = ev.data.target.children[1]
+        ? ev.data.target.children[1].position
+        : null;
 
-  animate = async () => {
+      console.log(pos0, pos1, pos2);
+    });
+  };
+
+  animate = () => {
     requestAnimationFrame(this.animate);
 
-    gridCubeLines.rotation.x += 0.0082;
-    gridCubeLines.rotation.y += 0.0084;
-    gridCubeLines.rotation.z += 0.0086;
+    // gridCubeLines.rotation.x += 0.0082;
+    // group.rotation.y += 0.0084;
+    // gridCubeLines.rotation.z += 0.0086;
 
     this.controls.update();
     this.renderer.render(this.scene, this.camera);
@@ -83,5 +114,5 @@ class ThreeJSCanvas extends Component {
 
 export default connect(
   null,
-  null
+  null,
 )(ThreeJSCanvas);
