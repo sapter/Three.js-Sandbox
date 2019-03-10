@@ -4,13 +4,16 @@ import * as THREE from "three";
 import { Interaction } from "three.interaction";
 import OrbitControls from "three-orbitcontrols";
 // import gridCubeLines from './3DModels/GridCubeLines';
-import cubeCreator from "./3DModels/cube";
-import group from "./3DModels/group";
+import cubeCreator from "./3DModels/cubeCreator";
+import GameOfLife from "./gameOfLife";
+
+const game = new GameOfLife(10);
+let group = game.board3d;
 
 class ThreeJSCanvas extends Component {
   constructor(props) {
     super(props);
-
+    this.changeBoard = this.changeBoard.bind(this);
     //RENDERER
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(window.innerWidth, window.innerHeight, false);
@@ -44,14 +47,18 @@ class ThreeJSCanvas extends Component {
 
     // GRID CUBE LINES
     // this.scene.add(gridCubeLines);
-    this.scene.add(group);
+    group.children.forEach(cell => this.meshOnClick(cell));
   }
 
   componentDidMount() {
     document.getElementById("canvas").appendChild(this.renderer.domElement);
-    this.boardCreate(4);
+    // this.boardCreate(4);
+    this.scene.add(group);
+    this.randomVisualize();
+    setInterval(this.changeBoard, 600);
     this.animate();
   }
+
   // CREATE CUBE BOARD
   boardCreate = size => {
     for (let x = 0; x < size; x++) {
@@ -70,21 +77,31 @@ class ThreeJSCanvas extends Component {
   meshOnClick = mesh => {
     mesh.cursor = "pointer";
     mesh.on("click", function(ev) {
-      const pos0 = ev.data.target.position;
-      const pos1 = ev.data.target.children[0]
-        ? ev.data.target.children[0].position
-        : null;
-      const pos2 = ev.data.target.children[1]
-        ? ev.data.target.children[1].position
-        : null;
+      // ev.data.target.userData.toggle();
+      // console.log(this.position);
+      this.children[0].visible = !this.children[0].visible;
+      // this.changeBoard();
+    });
+  };
 
-      console.log(pos0, pos1, pos2);
+  changeBoard = () => {
+    this.scene.remove(group);
+    const newGroup = game.tick();
+    group = newGroup;
+    group.children.forEach(cell => this.meshOnClick(cell));
+    this.scene.add(group);
+    // requestAnimationFrame(this.animate);
+  };
+
+  randomVisualize = () => {
+    group.children.forEach(el => {
+      const randNum = Math.floor(Math.random() * 2);
+      if (randNum) el.children[0].visible = !el.children[0].visible;
     });
   };
 
   animate = () => {
     requestAnimationFrame(this.animate);
-
     // gridCubeLines.rotation.x += 0.0082;
     // group.rotation.y += 0.0084;
     // gridCubeLines.rotation.z += 0.0086;
