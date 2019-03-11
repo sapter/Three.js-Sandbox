@@ -47,16 +47,47 @@ class GameOfLife {
   }
 
   livingNeighbors(x, y, z) {
-    const n1 = this.getCell(x - 1, y + 1, z).children[0].visible;
-    const n2 = this.getCell(x - 1, y, z).children[0].visible;
-    const n3 = this.getCell(x - 1, y - 1, z).children[0].visible;
-    const n4 = this.getCell(x + 1, y + 1, z).children[0].visible;
-    const n5 = this.getCell(x + 1, y, z).children[0].visible;
-    const n6 = this.getCell(x + 1, y - 1, z).children[0].visible;
-    const n7 = this.getCell(x, y + 1, z).children[0].visible;
-    const n8 = this.getCell(x, y - 1, z).children[0].visible;
-    return n1 + n2 + n3 + n4 + n5 + n6 + n7 + n8;
+    const neighborArr = [
+      this.getCell(x - 1, y + 1, z).children[0].visible,
+      this.getCell(x - 1, y, z).children[0].visible,
+      this.getCell(x - 1, y - 1, z).children[0].visible,
+      this.getCell(x + 1, y + 1, z).children[0].visible,
+      this.getCell(x + 1, y, z).children[0].visible,
+      this.getCell(x + 1, y - 1, z).children[0].visible,
+      this.getCell(x, y + 1, z).children[0].visible,
+      this.getCell(x, y - 1, z).children[0].visible,
+      this.getCell(x - 1, y + 1, z + 1).children[0].visible,
+      this.getCell(x - 1, y, z + 1).children[0].visible,
+      this.getCell(x - 1, y - 1, z + 1).children[0].visible,
+      this.getCell(x + 1, y + 1, z + 1).children[0].visible,
+      this.getCell(x + 1, y, z + 1).children[0].visible,
+      this.getCell(x + 1, y - 1, z + 1).children[0].visible,
+      this.getCell(x, y + 1, z + 1).children[0].visible,
+      this.getCell(x, y, z + 1).children[0].visible,
+      this.getCell(x, y - 1, z + 1).children[0].visible,
+      this.getCell(x - 1, y + 1, z - 1).children[0].visible,
+      this.getCell(x - 1, y, z - 1).children[0].visible,
+      this.getCell(x - 1, y - 1, z - 1).children[0].visible,
+      this.getCell(x + 1, y + 1, z - 1).children[0].visible,
+      this.getCell(x + 1, y, z - 1).children[0].visible,
+      this.getCell(x + 1, y - 1, z - 1).children[0].visible,
+      this.getCell(x, y + 1, z - 1).children[0].visible,
+      this.getCell(x, y, z - 1).children[0].visible,
+      this.getCell(x, y - 1, z - 1).children[0].visible,
+    ];
+    return neighborArr.reduce((sum, el) => (sum += el));
   }
+  //   livingNeighbors(x, y, z) {
+  //     const n1 = this.getCell(x - 1, y + 1, z).children[0].visible;
+  //     const n2 = this.getCell(x - 1, y, z).children[0].visible;
+  //     const n3 = this.getCell(x - 1, y - 1, z).children[0].visible;
+  //     const n4 = this.getCell(x + 1, y + 1, z).children[0].visible;
+  //     const n5 = this.getCell(x + 1, y, z).children[0].visible;
+  //     const n6 = this.getCell(x + 1, y - 1, z).children[0].visible;
+  //     const n7 = this.getCell(x, y + 1, z).children[0].visible;
+  //     const n8 = this.getCell(x, y - 1, z).children[0].visible;
+  //     return n1 + n2 + n3 + n4 + n5 + n6 + n7 + n8;
+  //   }
 
   tick() {
     const newBoard = this.board3d.clone();
@@ -65,25 +96,24 @@ class GameOfLife {
       const isAlive = cell.children[0].visible;
       const { x, y, z } = cell.position;
       const numAlive = this.livingNeighbors(x, y, z);
+      //   if (isAlive) {
+      //     if (numAlive < 2 || numAlive > 3) {
+      //       this.toggleCell(cell);
+      //     }
+      //   } else {
+      //     if (numAlive === 3) {
+      //       this.toggleCell(cell);
+      //     }
+      //   }
       if (isAlive) {
-        if (numAlive < 2 || numAlive > 3) {
+        if (numAlive < 8 || numAlive > 11) {
           this.toggleCell(cell);
         }
       } else {
-        if (numAlive === 3) {
+        if (numAlive >= 8 && numAlive <= 11) {
           this.toggleCell(cell);
         }
       }
-      //   if (numAlive === 3) {
-      //     if (!isAlive) {
-      //       this.toggleCell(cell);
-      //     }
-      //   }
-      //   if (numAlive === 2 || numAlive === 3) {
-      //     if (isAlive) {
-      //       this.toggleCell(cell);
-      //     }
-      //   }
     });
     this.board3d = newBoard;
     return this.board3d;

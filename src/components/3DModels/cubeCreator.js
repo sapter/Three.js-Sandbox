@@ -12,20 +12,11 @@ const cubeCreator = (size, a, b, c, parent = true) => {
   cube.position.set(a, b, c);
 
   if (parent) {
-    attachData(cube);
     cube.add(cubeCreator(size / 2, 0, 0, 0, false));
   } else {
     cube.visible = false;
   }
   return cube;
 };
-
-const attachData = mesh => {
-  const { userData } = mesh;
-  userData.alive = true;
-  userData.isAlive = () => userData.alive;
-  userData.toggle = () => (userData.alive = !userData.alive);
-};
-
 module.exports = cubeCreator;
 // export default cubeCreator;
