@@ -17,8 +17,8 @@ class ThreeJSCanvas extends Component {
     this.meshOnClick = this.meshOnClick.bind(this);
     //RENDERER
     this.renderer = new THREE.WebGLRenderer();
-    this.renderer.setSize(window.innerWidth, window.innerHeight, false);
-    this.renderer.setClearColor(0xcccccc);
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    // this.renderer.setClearColor(0xcccccc);
 
     //SCENE
     this.scene = new THREE.Scene();
@@ -30,12 +30,14 @@ class ThreeJSCanvas extends Component {
       1,
       500,
     );
-    this.camera.position.set(25, 12.5, -10);
+    // this.camera.position.set(25, 12.5, -10);
+    this.camera.position.set(10, 10, 10);
+    // this.camera.add(new THREE.PointLight(0xffffff, 1));
     // INTERACTION
     this.interaction = new Interaction(this.renderer, this.scene, this.camera);
     //AMBIENT LIGHT
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
-    this.scene.add(ambientLight);
+    this.scene.add(THREE.AmbientLight(0x222222));
 
     //ORBITAL CONTROLS
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);

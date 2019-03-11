@@ -5,7 +5,7 @@ const cubeCreator = (size, a, b, c, parent = true) => {
   const material = new MeshBasicMaterial({
     color: 0x0080ff,
     wireframe: parent ? true : false,
-    opacity: parent ? 0.2 : 0.7,
+    opacity: parent ? 0.15 : 0.7,
     transparent: true,
   });
   const cube = new Mesh(geometry, material);
