@@ -9,7 +9,7 @@ import GameOfLife from "./gameOfLife";
 
 const game = new GameOfLife(10);
 let group = game.board3d;
-let group2d = new THREE.Group();
+// let group2d = new THREE.Group();
 
 class ThreeJSCanvas extends Component {
   constructor(props) {
@@ -48,7 +48,7 @@ class ThreeJSCanvas extends Component {
 
     // GRID CUBE LINES
     // this.scene.add(gridCubeLines);
-    group2d.position.set(30, 0, 0);
+    // group2d.position.set(30, 0, 0);
     group.children.forEach(cell => this.meshOnClick(cell));
   }
 
@@ -56,7 +56,6 @@ class ThreeJSCanvas extends Component {
     document.getElementById("canvas").appendChild(this.renderer.domElement);
     // this.boardCreate(4);
     this.scene.add(group);
-    this.scene.add(group2d);
     this.randomVisualize();
     setInterval(this.changeBoard, 600);
     this.animate();
@@ -102,16 +101,16 @@ class ThreeJSCanvas extends Component {
     });
   };
 
-  add2d = zCoord => {
-    this.scene.remove(group2d);
-    group2d = new THREE.Group();
-    // zMeshArr holds all cells from cube with given zCoord
-    const zMeshArr = group.children.filter(el => el.position.z === zCoord);
-    zMeshArr.forEach(el => {
-      group2d.add(el);
-    });
-    this.scene.add(group2d);
-  };
+  // add2d = zCoord => {
+  //   this.scene.remove(group2d);
+  //   group2d = new THREE.Group();
+  //   // zMeshArr holds all cells from cube with given zCoord
+  //   const zMeshArr = group.children.filter(el => el.position.z === zCoord);
+  //   zMeshArr.forEach(el => {
+  //     group2d.add(el);
+  //   });
+  //   this.scene.add(group2d);
+  // };
 
   animate = () => {
     requestAnimationFrame(this.animate);
